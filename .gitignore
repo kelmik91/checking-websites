@@ -4,3 +4,4 @@
 /bin
 logGoWork.log
 /test.go
+.DS_Store
