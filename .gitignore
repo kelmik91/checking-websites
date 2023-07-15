@@ -1,0 +1,6 @@
+.idea
+/bin/*
+.env
+/bin
+logGoWork.log
+/test.go
