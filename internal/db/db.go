@@ -68,6 +68,29 @@ func GetAllUser() []int {
 	return users
 }
 
+func GetDigitalUser() []int {
+	db := getConn()
+	defer db.Close()
+
+	rows, err := db.Query("SELECT id FROM users WHERE is_active = 1 AND role = 2")
+	if err != nil {
+		panic(err.Error())
+	}
+	defer rows.Close()
+
+	var users []int
+	for rows.Next() {
+		var id int
+		err = rows.Scan(&id)
+		if err != nil {
+			panic(err.Error())
+		}
+		users = append(users, id)
+	}
+
+	return users
+}
+
 func GetHosts() map[int]Host {
 	db := getConn()
 	defer db.Close()
