@@ -30,7 +30,7 @@ func CheckSite(host db.Host, wg *sync.WaitGroup) {
 	if err != nil {
 		if host.Header.Int64 != 0 {
 			time.Sleep(time.Second * 15)
-			resp, err = client.Get("https://" + host.Name)
+			resp, err = client.Get("http://" + host.Name)
 			if err != nil {
 				if host.Header.Int64 != 0 {
 					//db.SetHeader(host.Id, 0)
@@ -60,26 +60,26 @@ func CheckSite(host db.Host, wg *sync.WaitGroup) {
 
 		body, _ := io.ReadAll(resp.Body) //TODO перенести в проверку на пустоту
 
-		//if time.Now().Minute()%15 == 0 || host.SslNotification.Bool == true || host.SslTime.Int64 == 0 {
-		//	wg.Add(1)
-		//	go Ssl(host, wg)
-		//}
-
-		if time.Now().Minute() == 45 || host.DomainTime.Int64 == 0 {
+		loc, err := time.LoadLocation("europe/moscow")
+		if err != nil {
+			log.Println(err.Error())
+			return
+		}
+		if time.Now().In(loc).Format("Monday 15:04") == "Monday 10:20" || host.DomainTime.Int64 == 0 {
 			wg.Add(1)
-			go CheckDomain(host, wg)
+			go CheckDomain(host, wg) // проверяем дату аренды домена
 		}
 		wg.Add(1)
-		go checkRedirect(host, resp, wg)
+		go checkRedirect(host, resp, wg) // проверяем редирект на https
 		wg.Add(1)
-		go checkGtm(host, body, wg)
+		go checkGtm(host, body, wg) // проверяем установленый GTM
 		wg.Add(1)
-		go CheckTemplate(host, body, wg)
+		go CheckTemplate(host, body, wg) // проверяем верстку на ошибки и ключевые слова
 
 		for _, v := range resp.Header.Values("Set-Cookie") {
 			if strings.Contains(v, "october_session") {
 				wg.Add(1)
-				go CheckOctober(host, body, wg)
+				go CheckOctober(host, body, wg) // проверяем meta теги на сайтов на коробке
 			}
 		}
 
