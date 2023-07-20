@@ -18,16 +18,15 @@ func Ssl(host db.Host, wg *sync.WaitGroup) {
 
 		conn, err = tls.Dial("tcp", host.Name+":443", nil)
 		if err != nil {
-			wg.Add(1)
-			sendler.Handler("‼️☠️‼️ "+host.Name+" не удалось получить SSL ‼️☠️‼️", wg)
 			logger.WriteWork(err.Error())
 			log.Println(err.Error())
 			if host.SslNotification.Bool == false {
+				wg.Add(1)
+				sendler.Handler("‼️☠️‼️ "+host.Name+" не удалось получить SSL ‼️☠️‼️", wg)
 				db.SetSslNotification(host.Id, true)
 			}
 			return
 		}
-
 	}
 	defer conn.Close()
 
