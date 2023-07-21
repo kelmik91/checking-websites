@@ -69,10 +69,10 @@ func CheckDomain(host db.Host, wg *sync.WaitGroup) {
 	}
 }
 
-func findDate(s, startString string) (time.Time, error) {
-	startIndex := strings.Index(s, startString) + len(startString)
-	endIndex := strings.Index(s[startIndex:], "\n") + startIndex
-	date := s[startIndex:endIndex]
+func findDate(whois, startString string) (time.Time, error) {
+	startIndex := strings.Index(whois, startString) + len(startString)
+	endIndex := strings.Index(whois[startIndex:], "\n") + startIndex
+	date := whois[startIndex:endIndex]
 	date = strings.TrimSpace(date)
 	parse, err := time.Parse(time.RFC3339, date)
 	if err != nil {

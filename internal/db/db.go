@@ -116,6 +116,31 @@ func GetHosts() map[int]Host {
 	return hosts
 }
 
+func GetAllHostsCompany() map[int]Host {
+	db := getConn()
+	defer db.Close()
+
+	rows, err := db.Query("SELECT id, name, domain_time, domain_notification FROM domainsAll")
+	if err != nil {
+		//logger.WriteWork(err.Error())
+		panic(err.Error())
+	}
+	defer rows.Close()
+
+	var hosts = make(map[int]Host)
+	for rows.Next() {
+		host := Host{}
+		err = rows.Scan(&host.Id, &host.Name, &host.DomainTime, &host.DomainNotification)
+		if err != nil {
+			//logger.WriteWork(err.Error())
+			panic(err.Error())
+		}
+		hosts[host.Id] = host
+	}
+
+	return hosts
+}
+
 func GetDisableHosts() map[int]Host {
 	db := getConn()
 	defer db.Close()
@@ -249,6 +274,17 @@ func SetDomainTime(id int, domainTime int64) {
 	defer db.Close()
 
 	err := db.QueryRow("UPDATE domains SET domain_time = ? WHERE id = ?", domainTime, id)
+	if err.Err() != nil {
+		//logger.WriteWork(err.Err().Error())
+		panic(err.Err().Error())
+	}
+}
+
+func SetDomainsCompanyTime(id int, domainTime int64) {
+	db := getConn()
+	defer db.Close()
+
+	err := db.QueryRow("UPDATE domainsAll SET domain_time = ? WHERE id = ?", domainTime, id)
 	if err.Err() != nil {
 		//logger.WriteWork(err.Err().Error())
 		panic(err.Err().Error())
