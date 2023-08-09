@@ -29,7 +29,7 @@ func CheckSite(host db.Host, wg *sync.WaitGroup) {
 	resp, err := client.Get("http://" + host.Name)
 	if err != nil {
 		if host.Header.Int64 != 0 {
-			time.Sleep(time.Second * 15)
+			time.Sleep(time.Second * 30)
 			resp, err = client.Get("http://" + host.Name)
 			if err != nil {
 				if host.Header.Int64 != 0 {
@@ -60,12 +60,12 @@ func CheckSite(host db.Host, wg *sync.WaitGroup) {
 
 		body, _ := io.ReadAll(resp.Body) //TODO перенести в проверку на пустоту
 
-		loc, err := time.LoadLocation("europe/moscow")
+		loc, err := time.LoadLocation("Europe/Moscow")
 		if err != nil {
 			log.Println(err.Error())
 			return
 		}
-		if time.Now().In(loc).Format("Monday 15:04") == "Monday 10:20" || host.DomainTime.Int64 == 0 {
+		if ((time.Now().In(loc).Format("15:04") == "10:10" || time.Now().In(loc).Format("15:04") == "18:30") && (time.Now().In(loc).Weekday() != 0 && time.Now().In(loc).Weekday() != 6)) || (host.DomainTime.Int64 == 0) {
 			wg.Add(1)
 			go CheckDomain(host, wg) // проверяем дату аренды домена
 		}

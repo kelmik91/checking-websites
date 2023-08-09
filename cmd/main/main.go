@@ -82,9 +82,9 @@ func createLockFileOrDie() {
 		panic(err)
 	}
 	exPath := filepath.Dir(ex)
-	_, errFile := os.Stat(exPath + "/www/axel-auto.ru/mainCheck.lock")
+	_, errFile := os.Stat(exPath + "/mainCheck.lock")
 	if os.IsNotExist(errFile) {
-		file, err := os.Create(exPath + "/www/axel-auto.ru/mainCheck.lock")
+		file, err := os.Create(exPath + "/mainCheck.lock")
 		if err != nil {
 			logger.WriteWork(err.Error())
 			log.Println(err)
