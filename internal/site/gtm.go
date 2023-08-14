@@ -11,6 +11,7 @@ func checkGtm(host db.Host, body []byte, wg *sync.WaitGroup) {
 	defer wg.Done()
 
 	if string(body) == "" {
+		//TODO написать лог для пустого тела
 		return
 	}
 
@@ -20,8 +21,14 @@ func checkGtm(host db.Host, body []byte, wg *sync.WaitGroup) {
 		if strings.Contains(string(body), gtmValue) {
 			if host.Gtm.String != gtmValue {
 				db.SetGTM(host.Id, gtmValue)
-				wg.Add(1)
-				sendler.Handler("📜 "+host.Name+" найден "+gtmValue+" 📜", wg)
+				domainGtm := db.GetGtmByDomain(host.Id)
+				if domainGtm != "" && domainGtm != gtmValue {
+					wg.Add(1)
+					sendler.Handler("📜 "+host.Name+" установлен "+gtmValue+"📜 \nДолден быть установлен "+domainGtm, wg)
+				} else {
+					wg.Add(1)
+					sendler.Handler("📜 "+host.Name+" найден "+gtmValue+" 📜", wg)
+				}
 			}
 			return // прерываем проверку если найден GTM из базы
 		}

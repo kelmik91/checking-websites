@@ -70,7 +70,7 @@ func writeNight(message string, wg *sync.WaitGroup) {
 	writer := bufio.NewWriter(file)
 	defer writer.Flush()
 
-	_, err = writer.WriteString(time.Now().In(loc).Format("02/01/2006 15:04:05") + " " + message + "\n")
+	_, err = writer.WriteString(time.Now().In(loc).Format("02.01.2006 15:04:05") + " " + message + "\n")
 	if err != nil {
 		//logger.WriteWork(err.Error())
 		log.Println(err)

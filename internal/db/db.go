@@ -192,6 +192,29 @@ func GetGTM() map[int]string {
 	return gtm
 }
 
+func GetGtmByDomain(domainId int) string {
+	db := getConn()
+	defer db.Close()
+
+	rows, err := db.Query("select gtms.value from domains_gtms_rels, gtms where domains_gtms_rels.gtm_id = gtms.id and domains_gtms_rels.domain_id = ?", domainId)
+	if err != nil {
+		//logger.WriteWork(err.Error())
+		panic(err.Error())
+	}
+	defer rows.Close()
+
+	var gtm string
+	for rows.Next() {
+		err = rows.Scan(&gtm)
+		if err != nil {
+			//logger.WriteWork(err.Error())
+			panic(err.Error())
+		}
+	}
+
+	return gtm
+}
+
 func SetHeader(id int, statusCode int) {
 	db := getConn()
 	defer db.Close()

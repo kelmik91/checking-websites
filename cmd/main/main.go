@@ -16,6 +16,17 @@ import (
 
 func main() {
 	createLockFileOrDie()
+	defer func() {
+		ex, err := os.Executable()
+		if err != nil {
+			panic(err)
+		}
+		exPath := filepath.Dir(ex)
+		err = os.Remove(exPath + "/mainCheck.lock")
+		if err != nil {
+			return
+		}
+	}()
 	start := time.Now()
 
 	err := godotenv.Load()
@@ -32,18 +43,6 @@ func main() {
 	}
 
 	wg.Wait()
-
-	//defer func() {
-	ex, err := os.Executable()
-	if err != nil {
-		panic(err)
-	}
-	exPath := filepath.Dir(ex)
-	err = os.Remove(exPath + "/mainCheck.lock")
-	if err != nil {
-		return
-	}
-	//}()
 
 	duration := time.Since(start)
 	log.Println(duration)
