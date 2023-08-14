@@ -50,7 +50,7 @@ func Ssl(host db.Host, wg *sync.WaitGroup) {
 		if host.SslTime.Int64 != cert.NotAfter.In(loc).Unix() {
 			db.SetSslTime(host.Id, cert.NotAfter.In(loc).Unix())
 			wg.Add(1)
-			sendler.Handler("🆕 "+host.Name+" новый SSL "+cert.NotAfter.In(loc).Format("02.01.2006 15:04")+" 🆕", wg)
+			sendler.Handler("🆕 "+host.Name+" новый SSL до "+cert.NotAfter.In(loc).Format("02.01.2006 15:04")+" 🆕", wg)
 		}
 	}
 }

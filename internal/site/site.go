@@ -27,19 +27,17 @@ func CheckSite(host db.Host, wg *sync.WaitGroup) {
 	}
 
 	resp, err := client.Get("http://" + host.Name)
-	if err != nil {
-		if host.Header.Int64 != 0 {
-			time.Sleep(time.Second * 30)
-			resp, err = client.Get("http://" + host.Name)
-			if err != nil {
-				if host.Header.Int64 != 0 {
-					//db.SetHeader(host.Id, 0)
-					//logger.WriteWork(host.Name + " нет ответа сервера")
-					//sendler.Handler("🤔 " + host.Name + " нет ответа сервера! 🤔 ")
-					logger.WriteWork(fmt.Sprintln(host.Name, err.Error()))
-					log.Println(err)
-					return
-				}
+	if err != nil || (host.Header.Int64 != 0 && resp.StatusCode != 200) {
+		time.Sleep(time.Second * 30)
+		resp, err = client.Get("http://" + host.Name)
+		if err != nil {
+			if host.Header.Int64 != 0 {
+				//db.SetHeader(host.Id, 0)
+				//logger.WriteWork(host.Name + " нет ответа сервера")
+				//sendler.Handler("🤔 " + host.Name + " нет ответа сервера! 🤔 ")
+				logger.WriteWork(fmt.Sprintln(host.Name, err.Error()))
+				log.Println(err)
+				return
 			}
 		}
 	}
@@ -70,11 +68,11 @@ func CheckSite(host db.Host, wg *sync.WaitGroup) {
 			go CheckDomain(host, wg) // проверяем дату аренды домена
 		}
 		wg.Add(1)
-		go checkRedirect(host, resp, wg) // проверяем редирект на https
-		wg.Add(1)
 		go checkGtm(host, body, wg) // проверяем установленый GTM
 		wg.Add(1)
 		go CheckTemplate(host, body, wg) // проверяем верстку на ошибки и ключевые слова
+		wg.Add(1)
+		go checkRedirect(host, resp, wg) // проверяем редирект на https
 
 		for _, v := range resp.Header.Values("Set-Cookie") {
 			if strings.Contains(v, "october_session") {

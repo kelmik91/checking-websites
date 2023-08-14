@@ -18,6 +18,7 @@ type Host struct {
 	SslTime            sql.NullInt64  `json:"ssl_time,omitempty"`
 	SslNotification    sql.NullBool   `json:"ssl_notification,omitempty"`
 	Gtm                sql.NullString `json:"gtm,omitempty"`
+	GtmVeryfi          sql.NullBool   `json:"gtm_verify,omitempty"`
 	October            sql.NullString `json:"header_october,omitempty"`
 	TemplateError      sql.NullString `json:"template_error,omitempty"`
 	Redirect           sql.NullString `json:"redirect,omitempty"`
@@ -95,7 +96,7 @@ func GetHosts() map[int]Host {
 	db := getConn()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT id, name, header, ssl_time, ssl_notification, gtm, header_october, template_error, domain_time, domain_notification, redirect FROM domains WHERE is_active = 1")
+	rows, err := db.Query("SELECT id, name, header, ssl_time, ssl_notification, gtm, gtm_verify, header_october, template_error, domain_time, domain_notification, redirect FROM domains WHERE is_active = 1")
 	if err != nil {
 		//logger.WriteWork(err.Error())
 		panic(err.Error())
@@ -105,7 +106,7 @@ func GetHosts() map[int]Host {
 	var hosts = make(map[int]Host)
 	for rows.Next() {
 		host := Host{}
-		err = rows.Scan(&host.Id, &host.Name, &host.Header, &host.SslTime, &host.SslNotification, &host.Gtm, &host.October, &host.TemplateError, &host.DomainTime, &host.DomainNotification, &host.Redirect)
+		err = rows.Scan(&host.Id, &host.Name, &host.Header, &host.SslTime, &host.SslNotification, &host.Gtm, &host.GtmVeryfi, &host.October, &host.TemplateError, &host.DomainTime, &host.DomainNotification, &host.Redirect)
 		if err != nil {
 			//logger.WriteWork(err.Error())
 			panic(err.Error())
@@ -192,6 +193,29 @@ func GetGTM() map[int]string {
 	return gtm
 }
 
+func GetGtmByDomain(domainId int) string {
+	db := getConn()
+	defer db.Close()
+
+	rows, err := db.Query("select gtms.value from domains_gtms_rels, gtms where domains_gtms_rels.gtm_id = gtms.id and domains_gtms_rels.domain_id = ?", domainId)
+	if err != nil {
+		//logger.WriteWork(err.Error())
+		panic(err.Error())
+	}
+	defer rows.Close()
+
+	var gtm string
+	for rows.Next() {
+		err = rows.Scan(&gtm)
+		if err != nil {
+			//logger.WriteWork(err.Error())
+			panic(err.Error())
+		}
+	}
+
+	return gtm
+}
+
 func SetHeader(id int, statusCode int) {
 	db := getConn()
 	defer db.Close()
@@ -208,6 +232,17 @@ func SetGTM(id int, gtm string) {
 	defer db.Close()
 
 	err := db.QueryRow("UPDATE domains SET gtm = ? WHERE id = ?", gtm, id)
+	if err.Err() != nil {
+		//logger.WriteWork(err.Err().Error())
+		panic(err.Err().Error())
+	}
+}
+
+func SetGtmVerify(id int, verify bool) {
+	db := getConn()
+	defer db.Close()
+
+	err := db.QueryRow("UPDATE domains SET gtm_verify = ? WHERE id = ?", verify, id)
 	if err.Err() != nil {
 		//logger.WriteWork(err.Err().Error())
 		panic(err.Err().Error())
