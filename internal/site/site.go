@@ -5,6 +5,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 	"sync"
@@ -27,8 +28,12 @@ func CheckSite(host db.Host, wg *sync.WaitGroup) {
 	}
 
 	resp, err := client.Get("http://" + host.Name)
-	if err != nil || (host.Header.Int64 != 0 && resp.StatusCode != 200) {
-		time.Sleep(time.Second * 30)
+	if err != nil || host.Header.Int64 != 0 || resp.StatusCode != 200 {
+		if err != nil {
+			log.Panicln(err.Error())
+		}
+		timeout, err := strconv.Atoi(os.Getenv("timeout"))
+		time.Sleep(time.Second * time.Duration(timeout))
 		resp, err = client.Get("http://" + host.Name)
 		if err != nil {
 			if host.Header.Int64 != 0 {
