@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strconv"
 	"sync"
-	"yandex/internal/db"
-	"yandex/internal/send"
+	"targetPlus/internal/db"
+	"targetPlus/internal/send"
 )
 
 func checkRedirect(host db.Host, resp *http.Response, wg *sync.WaitGroup) {

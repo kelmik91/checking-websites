@@ -3,9 +3,9 @@ package site
 import (
 	"strings"
 	"sync"
-	"yandex/internal/db"
-	"yandex/internal/logger"
-	"yandex/internal/send"
+	"targetPlus/internal/db"
+	"targetPlus/internal/logger"
+	"targetPlus/internal/send"
 )
 
 func CheckOctober(host db.Host, body []byte, wg *sync.WaitGroup) {

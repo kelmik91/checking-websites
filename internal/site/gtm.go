@@ -3,8 +3,8 @@ package site
 import (
 	"strings"
 	"sync"
-	"yandex/internal/db"
-	"yandex/internal/send"
+	"targetPlus/internal/db"
+	"targetPlus/internal/send"
 )
 
 func checkGtm(host db.Host, body []byte, wg *sync.WaitGroup) {

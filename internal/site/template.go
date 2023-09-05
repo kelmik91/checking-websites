@@ -4,8 +4,8 @@ import (
 	"log"
 	"strings"
 	"sync"
-	"yandex/internal/db"
-	"yandex/internal/send"
+	"targetPlus/internal/db"
+	"targetPlus/internal/send"
 )
 
 func CheckTemplate(host db.Host, body []byte, wg *sync.WaitGroup) {

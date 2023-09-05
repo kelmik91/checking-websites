@@ -8,10 +8,10 @@ import (
 	"os"
 	"path/filepath"
 	"sync"
+	"targetPlus/internal/db"
+	"targetPlus/internal/logger"
+	"targetPlus/internal/site"
 	"time"
-	"yandex/internal/db"
-	"yandex/internal/logger"
-	"yandex/internal/site"
 )
 
 func main() {

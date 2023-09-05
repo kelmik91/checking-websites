@@ -4,10 +4,10 @@ import (
 	"crypto/tls"
 	"log"
 	"sync"
+	"targetPlus/internal/db"
+	"targetPlus/internal/logger"
+	"targetPlus/internal/send"
 	"time"
-	"yandex/internal/db"
-	"yandex/internal/logger"
-	"yandex/internal/send"
 )
 
 func Ssl(host db.Host, wg *sync.WaitGroup) {

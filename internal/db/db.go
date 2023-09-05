@@ -6,7 +6,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"os"
 	"strconv"
-	"yandex/internal/logger"
+	"targetPlus/internal/logger"
 )
 
 type Host struct {

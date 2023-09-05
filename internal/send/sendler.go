@@ -6,10 +6,10 @@ import (
 	"os"
 	"path/filepath"
 	"sync"
+	"targetPlus/internal/db"
+	"targetPlus/internal/logger"
+	"targetPlus/internal/telegram"
 	"time"
-	"yandex/internal/db"
-	"yandex/internal/logger"
-	"yandex/internal/telegram"
 )
 
 var nameFileNight = "/nightWatch.txt"
