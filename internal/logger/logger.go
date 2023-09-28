@@ -12,6 +12,7 @@ func WriteWork(message string) {
 	ex, err := os.Executable()
 	if err != nil {
 		panic(err)
+		//TODO заменить панику на логирование
 	}
 	exPath := filepath.Dir(ex)
 	file, err := os.OpenFile(exPath+"/logGoWork.log", os.O_APPEND|os.O_WRONLY, 0644)
@@ -36,6 +37,7 @@ func WriteWorkTelegram(message string) {
 	ex, err := os.Executable()
 	if err != nil {
 		panic(err)
+		//TODO заменить панику на логирование
 	}
 	exPath := filepath.Dir(ex)
 	file, err := os.OpenFile(exPath+"/logGoWorkTelegram.log", os.O_APPEND|os.O_WRONLY, 0644)

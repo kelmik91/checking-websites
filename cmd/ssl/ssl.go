@@ -39,6 +39,7 @@ func main() {
 	ex, err := os.Executable()
 	if err != nil {
 		panic(err)
+		//TODO заменить панику на логирование
 	}
 	exPath := filepath.Dir(ex)
 	err = os.Remove(exPath + "/mainCheckSsl.lock")
@@ -56,6 +57,7 @@ func endWork(duration time.Duration) {
 	ex, err := os.Executable()
 	if err != nil {
 		panic(err)
+		//TODO заменить панику на логирование
 	}
 	exPath := filepath.Dir(ex)
 	file, err := os.OpenFile(exPath+"/logGoWorkSsl.log", os.O_APPEND|os.O_WRONLY, 0644)
@@ -82,6 +84,7 @@ func createLockFileOrDie() {
 	ex, err := os.Executable()
 	if err != nil {
 		panic(err)
+		//TODO заменить панику на логирование
 	}
 	exPath := filepath.Dir(ex)
 	_, errFile := os.Stat(exPath + "/mainCheckSsl.lock")
@@ -94,5 +97,6 @@ func createLockFileOrDie() {
 		defer file.Close()
 	} else {
 		panic("Long run")
+		//TODO заменить панику на логирование
 	}
 }

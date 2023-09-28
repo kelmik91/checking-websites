@@ -28,6 +28,7 @@ func CheckDomain(host db.Host, wg *sync.WaitGroup) {
 		date, err = findDate(whois, startString)
 		if err != nil {
 			panic(err)
+			//TODO заменить панику на логирование
 		}
 	}
 	if strings.Contains(whois, "Registry Expiry Date:") {
@@ -35,6 +36,7 @@ func CheckDomain(host db.Host, wg *sync.WaitGroup) {
 		date, err = findDate(whois, startString)
 		if err != nil {
 			panic(err)
+			//TODO заменить панику на логирование
 		}
 	}
 	if strings.Contains(whois, "Registrar Registration Expiration Date:") {
@@ -42,6 +44,7 @@ func CheckDomain(host db.Host, wg *sync.WaitGroup) {
 		date, err = findDate(whois, startString)
 		if err != nil {
 			panic(err)
+			//TODO заменить панику на логирование
 		}
 	}
 

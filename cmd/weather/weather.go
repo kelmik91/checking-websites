@@ -16,7 +16,7 @@ func main() {
 		log.Fatal(err.Error())
 	}
 
-	message, _ := weather.Weather(55.6302, 37.6045, "2")
+	message, _ := weather.Weather(55.6302, 37.6045, 2)
 
 	wg := sync.WaitGroup{}
 	users := db.GetDigitalUser()

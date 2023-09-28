@@ -31,6 +31,7 @@ func CheckSite(host db.Host, wg *sync.WaitGroup) {
 	if err != nil || host.Header.Int64 != 0 || resp.StatusCode != 200 {
 		if err != nil {
 			log.Panicln(err.Error())
+			//TODO заменить панику на логирование
 		}
 		timeout, err := strconv.Atoi(os.Getenv("timeout"))
 		time.Sleep(time.Second * time.Duration(timeout))

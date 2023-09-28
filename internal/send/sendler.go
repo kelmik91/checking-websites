@@ -50,6 +50,7 @@ func writeNight(message string, wg *sync.WaitGroup) {
 	ex, err := os.Executable()
 	if err != nil {
 		panic(err)
+		//TODO заменить панику на логирование
 	}
 	exPath := filepath.Dir(ex)
 

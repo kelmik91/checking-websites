@@ -36,12 +36,14 @@ func getConn() *sql.DB {
 	db, err := sql.Open("mysql", dataSourceName)
 	if err != nil {
 		panic(err.Error())
+		//TODO заменить панику на логирование
 	}
 
 	err = db.Ping()
 	if err != nil {
 		logger.WriteWork(fmt.Sprintf(err.Error()))
 		panic(err.Error())
+		//TODO заменить панику на логирование
 	}
 	return db
 }
@@ -53,6 +55,7 @@ func GetAllUser() []int {
 	rows, err := db.Query("SELECT id FROM users WHERE is_active = 1")
 	if err != nil {
 		panic(err.Error())
+		//TODO заменить панику на логирование
 	}
 	defer rows.Close()
 
@@ -62,6 +65,7 @@ func GetAllUser() []int {
 		err = rows.Scan(&id)
 		if err != nil {
 			panic(err.Error())
+			//TODO заменить панику на логирование
 		}
 		users = append(users, id)
 	}
@@ -76,6 +80,7 @@ func GetDigitalUser() []int {
 	rows, err := db.Query("SELECT id FROM users WHERE is_active = 1 AND role = 2")
 	if err != nil {
 		panic(err.Error())
+		//TODO заменить панику на логирование
 	}
 	defer rows.Close()
 
@@ -85,6 +90,7 @@ func GetDigitalUser() []int {
 		err = rows.Scan(&id)
 		if err != nil {
 			panic(err.Error())
+			//TODO заменить панику на логирование
 		}
 		users = append(users, id)
 	}
@@ -100,6 +106,7 @@ func GetHosts() map[int]Host {
 	if err != nil {
 		//logger.WriteWork(err.Error())
 		panic(err.Error())
+		//TODO заменить панику на логирование
 	}
 	defer rows.Close()
 
@@ -110,6 +117,7 @@ func GetHosts() map[int]Host {
 		if err != nil {
 			//logger.WriteWork(err.Error())
 			panic(err.Error())
+			//TODO заменить панику на логирование
 		}
 		hosts[host.Id] = host
 	}
@@ -125,6 +133,7 @@ func GetAllHostsCompany() map[int]Host {
 	if err != nil {
 		//logger.WriteWork(err.Error())
 		panic(err.Error())
+		//TODO заменить панику на логирование
 	}
 	defer rows.Close()
 
@@ -135,6 +144,7 @@ func GetAllHostsCompany() map[int]Host {
 		if err != nil {
 			//logger.WriteWork(err.Error())
 			panic(err.Error())
+			//TODO заменить панику на логирование
 		}
 		hosts[host.Id] = host
 	}
@@ -150,6 +160,7 @@ func GetDisableHosts() map[int]Host {
 	if err != nil {
 		//logger.WriteWork(err.Error())
 		panic(err.Error())
+		//TODO заменить панику на логирование
 	}
 	defer rows.Close()
 
@@ -160,6 +171,7 @@ func GetDisableHosts() map[int]Host {
 		if err != nil {
 			//logger.WriteWork(err.Error())
 			panic(err.Error())
+			//TODO заменить панику на логирование
 		}
 		hosts[host.Id] = host
 	}
@@ -175,6 +187,7 @@ func GetGTM() map[int]string {
 	if err != nil {
 		//logger.WriteWork(err.Error())
 		panic(err.Error())
+		//TODO заменить панику на логирование
 	}
 	defer rows.Close()
 
@@ -186,6 +199,7 @@ func GetGTM() map[int]string {
 		if err != nil {
 			//logger.WriteWork(err.Error())
 			panic(err.Error())
+			//TODO заменить панику на логирование
 		}
 		gtm[id] = value
 	}
@@ -201,6 +215,7 @@ func GetGtmByDomain(domainId int) string {
 	if err != nil {
 		//logger.WriteWork(err.Error())
 		panic(err.Error())
+		//TODO заменить панику на логирование
 	}
 	defer rows.Close()
 
@@ -210,6 +225,7 @@ func GetGtmByDomain(domainId int) string {
 		if err != nil {
 			//logger.WriteWork(err.Error())
 			panic(err.Error())
+			//TODO заменить панику на логирование
 		}
 	}
 
@@ -224,6 +240,7 @@ func SetHeader(id int, statusCode int) {
 	if err.Err() != nil {
 		//logger.WriteWork(err.Err().Error())
 		panic(err.Err().Error())
+		//TODO заменить панику на логирование
 	}
 }
 
@@ -235,6 +252,7 @@ func SetGTM(id int, gtm string) {
 	if err.Err() != nil {
 		//logger.WriteWork(err.Err().Error())
 		panic(err.Err().Error())
+		//TODO заменить панику на логирование
 	}
 }
 
@@ -246,6 +264,7 @@ func SetGtmVerify(id int, verify bool) {
 	if err.Err() != nil {
 		//logger.WriteWork(err.Err().Error())
 		panic(err.Err().Error())
+		//TODO заменить панику на логирование
 	}
 }
 
@@ -257,6 +276,7 @@ func SetSslTime(id int, sslTime int64) {
 	if err.Err() != nil {
 		//logger.WriteWork(err.Err().Error())
 		panic(err.Err().Error())
+		//TODO заменить панику на логирование
 	}
 }
 
@@ -268,6 +288,7 @@ func SetSslNotification(id int, sslNotification bool) {
 	if err.Err() != nil {
 		//logger.WriteWork(err.Err().Error())
 		panic(err.Err().Error())
+		//TODO заменить панику на логирование
 	}
 }
 
@@ -285,6 +306,7 @@ func SetTemplateError(id int, templateError string) {
 	if err.Err() != nil {
 		//logger.WriteWork(err.Err().Error())
 		panic(err.Err().Error())
+		//TODO заменить панику на логирование
 	}
 }
 
@@ -301,6 +323,7 @@ func SetOctober(id int, value string) {
 	if err.Err() != nil {
 		//logger.WriteWork(err.Err().Error())
 		panic(err.Err().Error())
+		//TODO заменить панику на логирование
 	}
 }
 
@@ -312,6 +335,7 @@ func SetDomainTime(id int, domainTime int64) {
 	if err.Err() != nil {
 		//logger.WriteWork(err.Err().Error())
 		panic(err.Err().Error())
+		//TODO заменить панику на логирование
 	}
 }
 
@@ -323,6 +347,7 @@ func SetDomainsCompanyTime(id int, domainTime int64) {
 	if err.Err() != nil {
 		//logger.WriteWork(err.Err().Error())
 		panic(err.Err().Error())
+		//TODO заменить панику на логирование
 	}
 }
 
@@ -334,6 +359,7 @@ func SetDomainNotification(id int, domainNotification bool) {
 	if err.Err() != nil {
 		//logger.WriteWork(err.Err().Error())
 		panic(err.Err().Error())
+		//TODO заменить панику на логирование
 	}
 }
 
@@ -350,5 +376,6 @@ func SetRedirect(id int, status string) {
 	if err.Err() != nil {
 		//logger.WriteWork(err.Err().Error())
 		panic(err.Err().Error())
+		//TODO заменить панику на логирование
 	}
 }
