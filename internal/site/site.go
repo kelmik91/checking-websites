@@ -28,7 +28,7 @@ func CheckSite(host db.Host, wg *sync.WaitGroup) {
 	}
 
 	resp, err := client.Get("http://" + host.Name)
-	if err != nil || host.Header.Int64 != 0 || resp.StatusCode != 200 {
+	if err != nil || resp.StatusCode != 200 {
 		if err != nil {
 			log.Panicln(err.Error())
 			//TODO заменить панику на логирование
